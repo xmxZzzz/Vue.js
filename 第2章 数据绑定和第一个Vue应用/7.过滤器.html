@@ -45,6 +45,8 @@
                 _this.timer = setInterval(function () {
                     _this.date = new Date();
                 }, 1000);
+                console.log("{{message|filterA|filterB}}");
+                console.log("{{message|filter('arg1','arg2')}} : 其中args1和arg2为filter方法里的第2、3个参数");
             },
             beforeDestroy: function () {
                 if (this.timer) {
