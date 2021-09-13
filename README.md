@@ -1,2 +1,2 @@
 # vue.js
-Vue.js实战-练习代码
+Vue.js实战的练习代码
