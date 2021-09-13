@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期</title>
+</head>
+
+<body>
+    <div id="app">
+
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+
+        var app = new Vue({
+            // el: "#app",
+            el: document.getElementById("app"),
+            data: {
+                value: 2
+            },
+            created: function () {
+                console.log("实例创建完成后调用。此阶段完成了数据的观测等，但尚未挂载，$el还不可用");
+                console.log("需要初始化处理一些数据时会比较有用");
+                console.log(this.value); //等价于 this.$data.value
+            },
+            mounted: function () {
+                console.log("el挂载到实例上后调用，一般我们的第一个业务逻辑会在这里开始");
+                console.log(this.$el); // <div id="app"></div>
+            },
+        });
+
+    </script>
+</body>
+
+</html>

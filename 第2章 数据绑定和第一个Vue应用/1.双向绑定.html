@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向绑定</title>
+</head>
+
+<body>
+    <div id="app">
+        <input v-model="value" type="text" placeholder="请输入姓名">
+        <h1>你好，{{value}}</h1>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var myData = "待输入";
+        var app = new Vue({
+            // el: "#app",
+            el: document.getElementById("app"),
+            data: {
+                value: '',
+                value1: myData //也可指向已有变量，引用传递
+            }
+        });
+        console.log(app.value1);
+        console.log(myData);
+
+        app.value1 = "尚未输入";
+        console.log(app.value1);
+        console.log(myData);
+    </script>
+</body>
+
+</html>

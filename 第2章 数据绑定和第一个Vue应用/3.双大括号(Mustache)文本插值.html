@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双大括号Mustache文本插值方法</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{book}}</div>
+        <div>
+            {{date}}
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                book: "《Vue.js实战》",
+                date: new Date()
+            },
+            mounted: function () {
+                var _this = this;
+                //setInterval:按照指定的时间间隔重复执行代码，直至间歇调用被取消或页面被卸载
+                _this.timer = setInterval(function () {
+                    _this.date = new Date();
+                }, 1000);
+            },
+            beforeDestroy: function () {
+                if (this.timer) {
+                    //在Vue实例销毁前，清楚定时器
+                    clearInterval(this.timer);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
