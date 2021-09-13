@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第一个vue程序-遍历书籍</title>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="book in books">{{book.name}}</li>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                books: [
+                    { name: '《Vue.js实战》' },
+                    { name: '《深入理解ES6》' },
+                    { name: '《Java技术精讲》' }
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>
