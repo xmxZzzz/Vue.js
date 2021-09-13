@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤器（管道|）</title>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            {{date | formatDate}}
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+
+        var padDate = function (value) {
+            return value > 10 ? value : '0' + value;
+        }
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                date: new Date()
+            },
+            filters: {
+                formatDate: function (value) {
+                    var date = new Date(value);
+                    var year = date.getFullYear();
+                    var month = padDate(date.getMonth() + 1); //月份是从 0（一月） 到 11（十二月） 
+                    var day = padDate(date.getDate());
+                    // var day1 = date.getDay();//获得的日期在一周（0~6）的某一天的数字
+                    var hour = padDate(date.getHours());
+                    var minute = padDate(date.getMinutes());
+                    var second = padDate(date.getSeconds());
+                    return year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+                }
+            },
+            mounted: function () {
+                var _this = this;
+                //setInterval:按照指定的时间间隔重复执行代码，直至间歇调用被取消或页面被卸载
+                _this.timer = setInterval(function () {
+                    _this.date = new Date();
+                }, 1000);
+            },
+            beforeDestroy: function () {
+                if (this.timer) {
+                    //在Vue实例销毁前，清楚定时器
+                    clearInterval(this.timer);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
