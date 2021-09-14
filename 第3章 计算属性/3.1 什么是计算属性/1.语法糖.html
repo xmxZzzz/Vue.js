@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性示例</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- {{text.split(",").reverse().join(".")}} -->
+        {{reverseText}}
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                text: '123,456'
+            },
+            computed: {
+                reverseText: function () {
+                    return this.text.split(",").reverse().join(".");
+                }
+            },
+            mounted: function () {
+                console.log("当表达式过长或逻辑过于复杂时，可以使用计算属性");
+            }
+        });
+    </script>
+</body>
+
+</html>

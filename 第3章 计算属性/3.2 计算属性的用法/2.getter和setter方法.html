@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getter和setter方法</title>
+</head>
+
+<body>
+    <div id="app">
+        {{fullName}}
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                firstName: "Tom",
+                lastName: "Cherry"
+            },
+            computed: {
+                fullName: {
+                    get: function () {
+                        return this.firstName + " " + this.lastName;
+                    },
+                    set: function (fullName) {
+                        let name = fullName.split(" ");
+                        this.firstName = name[0];
+                        this.lastName = name[name.length - 1];
+                    }
+                }
+            },
+            mounted: function () {
+                console.log("绝大多数情况下，默认使用getter方法读取计算属性值，很少使用setter方法");
+                console.log("所以在声明一个计算属性时，可以直接使用默认写法，不必将getter和setter都声明");
+            }
+        });
+        app.fullName = "Jerry Alex";
+    </script>
+</body>
+
+</html>

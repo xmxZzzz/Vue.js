@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计算属性示例</title>
+</head>
+
+<body>
+    <div id="app">
+        {{prices}}
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                fruits: [
+                    { name: "apple", price: 1.2, count: 2 },
+                    { name: "banana", price: 2.1, count: 5 },
+                ],
+                phones: [
+                    { name: 'huawei', price: 6999, count: 3 },
+                    { name: 'iphone', price: 7599, count: 1 }
+                ]
+            },
+            computed: {
+                prices: function () {
+                    let totalPrice = 0;
+                    for (let item of this.fruits) {
+                        totalPrice += item.price * item.count;
+                    }
+                    for (let item of this.phones) {
+                        totalPrice += item.price * item.count;
+                    }
+                    return totalPrice;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
