@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind绑定class之在组件中使用</title>
+</head>
+
+<body>
+    <div id="app">
+        <my-component :class="{'active':isActive}"></my-component>
+        <my-component :class="[active,error]"></my-component>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component('my-component', {
+            template: "<p class='article'>这是一段文本</p>"
+        });
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                isActive: true,
+                active: 'activeArr',
+                error: 'errorArr'
+            },
+            mounted: function () {
+                console.log("如果直接在自定义组件上使用class或:class,样式规则会直接应用到这个组件的根元素上。");
+                console.log("这种用法仅适用于自定义组件的最外层是根元素，否则无效。");
+                console.log("当不满足这种条件或需要给具体的子元素设置类名时，应当使用组件的props来传递。");
+            }
+        });
+    </script>
+</body>
+
+</html>

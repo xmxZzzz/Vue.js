@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind绑定class之数组语法</title>
+</head>
+
+<body>
+    <div id="app1">
+        <!--数组-->
+        <div :class="[activeCls,errorCls]"></div>
+        <!-- 对象数组 -->
+        <div :class="[{'active':isActive},errorCls]"></div>
+        <!-- 三元表达式 -->
+        <div :class="[activeCls,isError?'error':'']"></div>
+
+        <!-- 数据data -->
+        <button :class="btnData"></button>
+        <!-- 计算属性computed -->
+        <button :class="btnComputed"></button>
+        <!-- 方法methods -->
+        <button :class="btnMethod()"></button>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app1 = new Vue({
+            el: "#app1",
+            data: {
+                activeCls: 'active',
+                errorCls: 'error',
+                isActive: true,
+                isError: true,
+                btnData: ['btnActive', 'btnError'],
+                size: 5,
+                isDisabled: false
+            },
+            computed: {
+                btnComputed: function () {
+                    return [
+                        'btnComputed',
+                        {
+                            ['btn-' + this.size]: this.size < 10,
+                            ['btn-disabled']: this.isDisabled,
+                            'btn-abled': !this.isDisabled
+                        }
+                    ]
+                }
+            },
+            methods: {
+                btnMethod: function () {
+                    return [
+                        'btnComputed',
+                        {
+                            ['btn-' + this.size]: this.size < 10,
+                            ['btn-disabled']: this.isDisabled,
+                            'btn-abled': !this.isDisabled
+                        }
+                    ]
+                }
+            },
+            mounted: function () {
+                console.log("使用计算属性给动态元素设置类名在业务中经常用到，尤其是在写复用的组件时");
+                console.log("所以在开发过程中，如果表达式过长或逻辑复杂，应该尽可能地优先使用计算属性");
+            }
+        });
+    </script>
+</body>
+
+</html>
