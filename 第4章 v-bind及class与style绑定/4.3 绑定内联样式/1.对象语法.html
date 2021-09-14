@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind绑定style内联样式</title>
+</head>
+
+<body>
+    <div id="app">
+        <p :style="{'color':color,'fontSize':fontSize+'px'}">这是一段文本</p>
+        <p :style="styleData">这是一段文本1</p>
+        <p :style="styleComputed">这是一段文本2</p>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                color: 'red',
+                fontSize: 20,
+                styleData: {
+                    color: 'blue',
+                    fontSize: 14 + "px"
+                }
+            },
+            computed: {
+                styleComputed: function () {
+                    return {
+                        color: 'green',
+                        fontSize: 7 + "px"
+                    }
+                }
+            },
+            mounted: function () {
+                console.log("使用:style时，Vue.js会自动给特殊的CSS属性名称添加前缀，如transform。");
+            }
+        });
+    </script>
+</body>
+
+</html>
