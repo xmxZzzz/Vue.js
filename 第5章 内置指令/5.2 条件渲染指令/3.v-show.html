@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-show</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <p v-show="status===2">这是一段隐藏的文本</p>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                status: 1
+            },
+            mounted: function () {
+                console.log("v-show的用法与v-if基本一致，只不过v-show改变的是CSS中的display属性。");
+                console.log("v-show不能作用在template上。");
+                console.log("适用于频繁切换条件");
+            }
+        });
+    </script>
+</body>
+
+</html>

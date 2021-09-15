@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-cloak</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        {{message}}
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                message: "这是一段文本"
+            },
+            computed: {
+
+            },
+            mounted: function () {
+                console.log("v-cloak不需要表达式，它会在Vue实例结束编译时从绑定的HTML元素上移除");
+                console.log("经常和CSS的display:none;一起使用。");
+                console.log("当网速较慢、Vue.js文件还没加载完时，在页面上会有{{message}}的字样。");
+                console.log("直至Vue实例创建、编译模板时，DOM才会被替换，所以这个过程是有闪动的。");
+                console.log("这时添加CSS样式就可解决。");
+            }
+        });
+    </script>
+</body>
+
+</html>

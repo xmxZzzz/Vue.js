@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>复用已有元素</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <template v-if="type==='name'">
+            <label key="name-label">用户名：</label>
+            <!-- 通过给input组件添加key属性，保证input的唯一性，解决input的复用问题 -->
+            <input v-model="username" placeholder="请输入用户名" key="name-input" />
+            <span>{{username}}</span>
+        </template>
+        <template v-if="type==='mail'">
+            <label key="mail-label">邮箱：</label>
+            <input v-model="usermail" placeholder="请输入邮箱" key="mail-input" />
+            <span>{{usermail}}</span>
+        </template>
+        <button @click="changeClick">切换</button>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                username: '',
+                usermail: '',
+                type: 'name'
+            },
+            methods: {
+                changeClick: function () {
+                    this.type = this.type === 'name' ? 'mail' : 'name';
+                }
+            },
+            mounted: function () {
+                console.log("");
+            }
+        });
+    </script>
+</body>
+
+</html>

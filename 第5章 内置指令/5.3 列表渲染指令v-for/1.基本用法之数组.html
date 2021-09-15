@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-for基本用法之数组</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ul>
+            <!-- v-for支持一个可选参数作为当前项的索引 -->
+            <li v-for="(book,index) in books">{{index}}-{{book.name}}</li>
+        </ul>
+
+        <!-- 将多个元素一起渲染 -->
+        <ul>
+            <template v-for="(book,index) in books">
+                <li>第 {{index+1}} 本:</li>
+                <li>作者：{{book.author}}</li>
+                <li>书名：{{book.name}}</li>
+            </template>
+        </ul>
+
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                books: [
+                    { name: "《Vue.js实战》", author: '梁灏' },
+                    { name: "《Javascript语言精粹》", author: 'Douglas Crockford' },
+                    { name: "《Javascript高级程序设计语言》", author: 'Nicholas C. Zakas' },
+                ]
+            },
+            mounted: function () {
+                console.log("当需要将一个数组遍历或枚举一个对象循环显示时，就会用到列表渲染指令v-for");
+                console.log("表达式需结合in使用。也支持使用of替换in");
+            }
+        });
+    </script>
+</body>
+
+</html>

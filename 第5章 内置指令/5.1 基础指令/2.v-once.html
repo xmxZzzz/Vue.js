@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-once</title>
+</head>
+
+<body>
+    <div id="app">
+        <span v-once>{{message}}</span>
+        <div v-once>
+            <span>{{message}}</span>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "这是一段文本"
+            },
+            mounted: function () {
+                console.log("v-once在业务中很少使用，当进一步优化时，可能会用到");
+                console.log("v-once不需要表达式，作用是定义它的元素或组件只渲染一次，包括元素或组件的所有子节点。");
+                console.log("首次渲染后，不会随数据的变化重新渲染，将被视为静态内容。");
+            }
+        });
+        app.message = "这是更改之后的文本"; //页面中的message并不会改变
+    </script>
+</body>
+
+</html>

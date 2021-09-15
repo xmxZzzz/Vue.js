@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-if、v-else-if、v-else</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <p v-if="statue===1">statue===1</p>
+        <p v-else-if="statue===2">statue===2</p>
+        <p v-else>statue===3</p>
+
+        <!-- 一次判断多个元素 -->
+        <template v-if="statue===4">
+            <p>文本1</p>
+            <p>文本2</p>
+            <p>文本3</p>
+        </template>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                statue: 4
+            },
+            mounted: function () {
+                console.log("v-if才是真正地条件渲染，因为它会根据表达式适当地销毁或重建元素及绑定的事件或子组件。");
+                console.log("当表达式为false时，则一开始元素或组件并不会渲染，只有当条件第一次为true时才开始编译。");
+                console.log("适用于条件不经常改变的场景，因为其切换开销比较大。");
+            }
+        });
+    </script>
+</body>
+
+</html>

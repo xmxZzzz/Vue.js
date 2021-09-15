@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-for基本用法之对象</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ul>
+            <!-- 支持可选参数key和index，分别代表键值和索引 -->
+            <li v-for="(user,key,index) in users">
+                {{index}}-{{key}}:{{user}}
+            </li>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                users: {
+                    name: "Tom",
+                    gender: '男',
+                    age: 18
+                }
+            },
+            mounted: function () {
+
+            }
+        });
+    </script>
+</body>
+
+</html>
