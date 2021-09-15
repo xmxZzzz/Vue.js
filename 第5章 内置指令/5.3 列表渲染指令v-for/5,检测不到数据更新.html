@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检测不到数组更新，无法触发视图更新</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ul>
+            <template v-for="(book,index) in books">
+                <li>第 {{index+1}} 本:</li>
+                <li>作者：{{book.author}}</li>
+                <li>书名：{{book.name}}</li>
+            </template>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                books: [
+                    { name: "《Javascript语言精粹》", author: 'Douglas Crockford' },
+                    { name: "《Vue.js实战》", author: '梁灏' },
+                    { name: "《Javascript高级程序设计语言》", author: 'Nicholas C. Zakas' },
+                ]
+            },
+            mounted: function () {
+                console.log("以下的变动数组中，Vue无法检测到数据更新，也无法触发视图更新");
+                console.log("1、通过索引直接添加值");
+                console.log("2、修改数组长度");
+            }
+        });
+
+        //解决方法：
+        //针对通过索引直接添加值
+        // app.books[3] = { name: "《深入理解JVM》", author: 'Tom' };
+        // Vue.set(app.books, 3, { name: "《深入理解JVM》", author: 'Tom' }); //set方法
+        // app.books.splice(3, 0, { name: "《深入理解JVM》", author: 'Tom' });  //splice()方法
+
+        //2、修改数组长度
+        app.books.splice(1);
+    </script>
+</body>
+
+</html>

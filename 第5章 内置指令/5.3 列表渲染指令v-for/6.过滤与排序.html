@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤与排序</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ul>
+            <template v-for="(book,index) in filterBooks">
+                <li>第 {{index+1}} 本:</li>
+                <li>作者：{{book.author}}</li>
+                <li>书名：{{book.name}}</li>
+            </template>
+        </ul>
+        <ul>
+            <template v-for="(book,index) in sortBooks">
+                <li>第 {{index+1}} 本:</li>
+                <li>作者：{{book.author}}</li>
+                <li>书名：{{book.name}}</li>
+            </template>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                books: [
+                    { name: "《Javascript语言精粹》", author: 'Douglas Crockford' },
+                    { name: "《Vue.js实战》", author: '梁灏' },
+                    { name: "《Javascript高级程序设计语言》", author: 'Nicholas C. Zakas' },
+                ]
+            },
+            computed: {
+                filterBooks: function () {
+                    return this.books.filter(book => {
+                        return book.name.match(/Javascript/);
+                    });
+                },
+                sortBooks: function () {
+                    return this.books.sort((book1, book2) => {
+                        return book1.name.length > book2.name.length;
+                    })
+                }
+            },
+            mounted: function () {
+            }
+        });
+    </script>
+</body>
+
+</html>
