@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修饰符</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- a -> div -> 跳转 -->
+        <div @click="divEvent">
+            <a href="https://www.baidu.com" @click="aClick">基本事件</a>
+        </div>
+        <!-- 冒泡：事件由子元素向祖先元素传播的 -->
+        <!-- a -> 跳转 -->
+        <div @click="divEvent">
+            <a href="https://www.baidu.com" @click.stop="aClick">阻止事件冒泡</a>
+        </div>
+        <!-- a ->  div -->
+        <div @click="divEvent">
+            <a href="https://www.baidu.com" @click.prevent="aClick">阻止默认事件</a>
+        </div>
+        <!-- div，只有点击div盒子才会触发，点击子元素a并不会执行 -->
+        <div @click.self="divEvent">
+            <a href="https://www.baidu.com" @click="aClick">只有点击本身才执行</a>
+        </div>
+        <!-- div -> a -> 跳转  当元素发生冒泡时，有capture修饰的就先触发-->
+        <div @click.capture="divEvent">
+            <a href="https://www.baidu.com" @click="aClick">触发捕获事件</a>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                count: 0
+            },
+            methods: {
+                divEvent: function () {
+                    alert("我是div事件");
+                },
+                aClick: function () {
+                    alert("我是a事件");
+                },
+            },
+            mounted: function () {
+                console.log("DOM事件标准定义了两种事件流，分别是捕获事件和冒泡事件");
+                console.log("事件捕获指的是从document到触发事件的那个节点，即自上而下的去触发事件。相反的，事件冒泡是自下而上的去触发事件。");
+            }
+        });
+    </script>
+</body>
+
+</html>

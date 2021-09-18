@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基本用法</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div>{{count}}</div>
+        <div>
+            <button @click="handleClickAdd1">+1</button>
+        </div>
+        <div>
+            <button @click="handleClickAdd10(10)">+10</button>
+        </div>
+        <div>
+            <a href="https://www.baidu.com" @click="handleClickStop('禁止点击',$event)">打开链接</a>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                count: 0
+            },
+            methods: {
+                handleClickAdd1: function () {
+                    this.count++;
+                },
+                handleClickAdd10: function (num) {
+                    this.count += (num || 1);
+                },
+                handleClickStop: function (message, event) {
+                    event.preventDefault();
+                    alert(message);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

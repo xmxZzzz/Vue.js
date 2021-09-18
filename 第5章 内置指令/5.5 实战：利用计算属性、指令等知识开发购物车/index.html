@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5.5 实战：利用计算属性、指令等知识开发购物车</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <template v-if="goods.length">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th class="tHead"> </th>
+                        <th class="tHead">商品名称</th>
+                        <th class="tHead">商品单价</th>
+                        <th class="tHead">购买数量</th>
+                        <th class="tHead">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(good,index) in goods">
+                        <td>{{index+1}}</td>
+                        <td>{{good.name}}</td>
+                        <td>{{good.price}}</td>
+                        <td>
+                            <button @click="sub(index)" :disabled="good.num===1">-</button>
+                            {{good.num}}
+                            <button @click="add(index)">+</button>
+                        </td>
+                        <td>
+                            <button @click="del(index)">移除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>总价：{{totalPrice}}</h2>
+        </template>
+        <template v-else>
+            暂无数据
+        </template>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
