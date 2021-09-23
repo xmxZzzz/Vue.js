@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-model</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div>
+            <input type="radio" v-model="picked" :value="value">
+            <p>单选按钮</p>
+            {{picked}}
+            {{value}}
+        </div>
+        <div>
+            <input type="checkbox" v-model="picked1" :true-value="value1" :false-value="value2">
+            {{picked1}}
+            {{value1}}
+            {{value2}}
+        </div>
+        <div>
+            <select v-model="picked2">
+                <option :value="{number:123}">123</option>
+            </select>
+            {{picked2.number}}
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                picked: false,
+                value: '选中',
+                picked1: false,
+                value1: '已选中',
+                value2: '未选中',
+                picked2: ''
+            },
+            methods: {
+
+            },
+            mounted: function () {
+                console.log("radio: 在选中时， app.picked === app value 123");
+                console.log("checkbox: 勾选时 app.toggle = app valuel 未勾选时， app.toggle ＝二 app .v alue");
+                conosle.log("select: 当选中时， app.picked2 是一个 Object ，所以 app.picked2.number == 123")
+            }
+        });
+    </script>
+</body>
+
+</html>
