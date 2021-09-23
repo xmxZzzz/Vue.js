@@ -1,0 +1,19 @@
+[v-cloak]{
+    display: none;
+}
+.tbl{
+    text-align: center;
+    border-collapse: collapse;
+    border: 2px solid black;
+
+}
+.thCss{
+    border: 2px solid black;
+}
+.divCss{
+    border-bottom: 1px solid black;
+}
+.tHead{
+    width: 100px;
+    background-color: bisque;
+}

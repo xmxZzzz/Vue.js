@@ -1,0 +1,10 @@
+[v-cloak]{
+    display: none;
+}
+.tbl{
+    text-align: center;
+}
+.tHead{
+    width: 100px;
+    background-color: bisque;
+}
