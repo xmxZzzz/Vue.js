@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件用法</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <my-component></my-component>
+        <my-component-child></my-component-child>
+        <div>
+            <table>
+                <tbody is="my-component"></tbody>
+            </table>
+        </div>
+        <div>
+            <my-component1></my-component1>
+            <my-component1></my-component1>
+            <my-component1></my-component1>
+        </div>
+        <div>
+            <my-component2></my-component2>
+            <my-component2></my-component2>
+            <my-component2></my-component2>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        // 全局定义组件
+        Vue.component('my-component', {
+            template: '<div>{{message}}</div>',
+            data: function () {
+                return {
+                    message: "这是一段文本"
+                }
+            }
+        });
+
+        // 局部定义组件
+        var Child = {
+            template: "<div>局部注册组件的内容</div>"
+        };
+
+        // 共享data对象
+        var data = {
+            count: 1
+        }
+        var Child1 = {
+            template: "<button @click='count++'>{{count}}</button>",
+            data: function () {
+                return data;
+            }
+        }
+
+        // 不共享data对象
+        var Child2 = {
+            template: "<button @click='counter++'>{{counter}}</button>",
+            data: function () {
+                return {
+                    counter: 1
+                };
+            }
+        }
+        var app1 = new Vue({
+            el: "#app",
+            components: {
+                'my-component-child': Child,
+                'my-component1': Child1,
+                'my-component2': Child2
+            },
+            data: {
+            },
+            methods: {
+            },
+            mounted: function () {
+                console.log("全局注册后，任何 ue 实例都可以使用");
+                console.log("template的 DOM 结构必须被一个元素包含， 如果直接写成 “这里是组件的内容”， 不带“<div></ div＞”是无法渲染");
+                console.log("Vue 实例中，使用 componen饱选项可以局部注册组件，注册后的组件只有在该实例作用域下有效。");
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件与复用</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <Card style="width:350px">
+            <p slot="title">与xxx聊天中</p>
+            <a href="#" slot="extra">
+                <Icon type="android-close" size="18"></Icon>
+            </a>
+            <div style="height:100px">
+            </div>
+            <div>
+                <Row :gutter="16">
+                    <Col span="17">
+                    <input type="text" v-model="text" placeholder="请输入">
+                    </Col>
+                    <Col span="4">
+                    <button type="primary" icon="paper-airplane">发送</button>
+                    </Col>
+                </Row>
+            </div>
+        </Card>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                text: ''
+            },
+            methods: {
+            },
+            mounted: function () {
+            }
+        });
+    </script>
+</body>
+
+</html>
