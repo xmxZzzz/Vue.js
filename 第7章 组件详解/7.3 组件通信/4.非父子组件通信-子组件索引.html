@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非父子组件通信—子组件索引</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <p>{{message}}</p>
+        <button @click="getText">获取子组件的text</button>
+        <my-component ref="myComponent"></my-component>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("my-component", {
+            template: '<div>子组件内容</div>',
+            data: function () {
+                return {
+                    text: 'aaaa'
+                }
+            },
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: ''
+            },
+            methods: {
+                getText: function () {
+                    this.message = this.$refs.myComponent.text;
+                }
+            },
+            mounted: function () {
+                console.log("在子组件中，使用this.$parent可以直接访问该组件的父实例或组件");
+                console.log("但这样使得父子组件高耦合，不建议使用。");
+            }
+        });
+    </script>
+</body>
+
+</html>

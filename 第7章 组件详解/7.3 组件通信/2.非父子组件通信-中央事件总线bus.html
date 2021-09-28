@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非父子组件通信—中央事件总线bus</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        {{message}}
+        <my-component></my-component>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("my-component", {
+            template: '<button @click="handleClick">传递事件</button>',
+            methods: {
+                handleClick: function () {
+                    bus.$emit("on-message", "来自组件my-component的内容");
+                }
+            }
+        });
+
+        var bus = new Vue();
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: ''
+            },
+            mounted: function () {
+                let _this = this;
+                bus.$on("on-message", (val) => {
+                    _this.message = val;
+                })
+            }
+        });
+    </script>
+</body>
+
+</html>

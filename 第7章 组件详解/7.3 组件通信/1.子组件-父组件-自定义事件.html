@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子组件->父组件之自定义事件</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- 自定义事件和v-model -->
+        <div>
+            <p>{{total}}</p>
+            <p>{{total1}}</p>
+            <my-component @increase="handleGetTotal" @reduce="handleGetTotal" @input="handleGetTotal1" v-model="total1">
+            </my-component>
+        </div>
+        <!-- v-model还可以用来创建自定义的表单输入组件，进行数据双向绑定 -->
+        <div>
+            <p>{{cValue}}</p>
+            <my-component1 v-model="cValue"></my-component1>
+            <button @click="reduceValue">-1</button>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("my-component", {
+            template: '\
+                <div>\
+                    <button @click="handleIncrease">+1</button>\
+                    <button @click="handleReduce">-1</button>\
+                    <button @click="handleClick">+10</button>\
+                </div>',
+            data: function () {
+                return {
+                    counter: 0,
+                    num: 0
+                }
+            },
+            methods: {
+                handleIncrease: function () {
+                    this.counter++;
+                    this.$emit("increase", this.counter);
+                },
+                handleReduce: function () {
+                    this.counter--;
+                    this.$emit("reduce", this.counter);
+                },
+                handleClick: function () {
+                    this.num += 10;
+                    this.$emit("input", this.num);
+                }
+            }
+        });
+        Vue.component("my-component1", {
+            template: '\
+                <div>\
+                    <input type="number" :value="value" @input="updateValue">\
+                </div>',
+            data: function () {
+                return {
+                    value: 0
+                }
+            },
+            methods: {
+                updateValue: function (event) {
+                    // event.target.value( ) 获取当前文本框的值（由事件触发时）
+                    this.$emit("input", event.target.value);
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                total: 0,
+                total1: 0,
+                cValue: 0
+            },
+            methods: {
+                handleGetTotal: function (val) {
+                    this.total = val;
+                },
+                handleGetTotal1: function (val) {
+                    this.total1 = val;
+                },
+                reduceValue: function () {
+                    this.cValue--;
+                }
+            },
+            mounted: function () {
+                console.log("组件关系可分为父子组件通信、兄弟组件通信、跨级组件通信。");
+                console.log("当子组件需要向父组件传递数据时，就要用到自定义事件。");
+                console.log("子组件用$emit来触发事件;父组件用$on来监听子组件的事件;");
+                console.log("父组件也可以直接在子组件的自定义标签上使用v-on来监听子组件触发的自定义事件");
+                console.log("这次组件$emit()的事件名是特殊的input");
+                console.log("v-model还可以用来创建自定义的表单输入组件，进行数据双向绑定。但该组件需要有一个value属性，并且有新的value值时触发input事件。");
+            }
+        });
+    </script>
+</body>
+
+</html>

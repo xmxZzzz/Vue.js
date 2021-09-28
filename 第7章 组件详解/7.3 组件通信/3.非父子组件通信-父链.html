@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非父子组件通信—父链</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        {{message}}
+        <button @click="changeText">修改text</button>
+        <my-component ref="myComponent"></my-component>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("my-component", {
+            template: '\
+            <div>\
+                <button @click="handleClick">传递事件</button>\
+                {{text}}\
+            </div>\
+            ',
+            data: function () {
+                return {
+                    text: 'aaaa'
+                }
+            },
+            methods: {
+                handleClick: function () {
+                    // 访问到父链后，可以做任何操作
+                    this.$parent.message = "来自组件my-component的内容"
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: ''
+            },
+            methods: {
+                changeText: function () {
+                    //this.$child返回的是一个可以操作当前组件的所有子组件集合
+                    this.$children.forEach(element => {
+                        element.text = "来自父组件的修改"
+                    });
+                }
+            },
+            mounted: function () {
+                console.log("在子组件中，使用this.$parent可以直接访问该组件的父实例或组件");
+                console.log("但这样使得父子组件高耦合，不建议使用。");
+            }
+        });
+    </script>
+</body>
+
+</html>
