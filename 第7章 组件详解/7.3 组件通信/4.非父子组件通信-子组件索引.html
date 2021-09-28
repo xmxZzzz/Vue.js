@@ -15,7 +15,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <p>{{message}}</p>
+        <p ref="p">{{message}}</p>
         <button @click="getText">获取子组件的text</button>
         <my-component ref="myComponent"></my-component>
     </div>
@@ -43,6 +43,9 @@
             mounted: function () {
                 console.log("在子组件中，使用this.$parent可以直接访问该组件的父实例或组件");
                 console.log("但这样使得父子组件高耦合，不建议使用。");
+
+                console.log(this.$refs.p); //输出: <p></p>
+                console.log(this.$refs.myComponent); //输出: a{...}
             }
         });
     </script>
