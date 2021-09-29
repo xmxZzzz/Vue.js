@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slot用法——作用域插槽</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <my-component>
+            <!-- 这里的props只是一个临时变量，用于访问来自子组件插槽的数据msg -->
+            <template scope="props">
+                <p>来自父组件的内容</p>
+                <p>{{props.msg}}</p>
+            </template>
+        </my-component>
+
+        <!--将books传递给子组件，在子组件中处理并返回给父组件，最后在父组件中进行展示 
+            props.bookName对应于子组件中的：book-name（驼峰写法） -->
+        <my-component1 :books="books">
+            <template scope="props" slot="book">
+                <li>{{props.bookName}}</li>
+            </template>
+        </my-component1>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        // 全局定义组件
+        Vue.component('my-component', {
+            template: '\
+            <div class="container">\
+                <slot msg="来自子组件的内容"></slot>\
+            </div>',
+        });
+        Vue.component('my-component1', {
+            props: {
+                books: {
+                    type: Array,
+                    default: function () {
+                        return [];
+                    }
+                }
+            },
+            template: '\
+                <ul>\
+                    <slot v-for="book in books" name="book" :book-name="book.name"></slot>\
+                </ul>\
+            '
+        });
+
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                books: [
+                    { name: "《Vue.js实战》" },
+                    { name: "《JavaScript语言精粹》" },
+                    { name: "《JavaScript高级程序设计》" },
+                ]
+            },
+            methods: {
+            },
+            mounted: function () {
+                console.log("作用域插槽时一种特殊的slot，使用一个可以复用的模板替换已渲染元素。");
+            }
+        });
+    </script>
+</body>
+
+</html>

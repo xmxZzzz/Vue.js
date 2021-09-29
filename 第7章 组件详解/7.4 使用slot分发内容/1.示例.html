@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slot-作用域</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- message是一个slot，但是它绑定的是父组件的数据，而不是子组件my-component的数据-->
+        <my-component v-show="isShow">{{message}}</my-component>
+        <my-component1></my-component1>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("my-component", {
+            template: '<div>我是子组件</div>'
+        });
+        Vue.component("my-component1", {
+            template: '<div v-show="isShow">我是子组件2</div>',
+            data: function () {
+                return {
+                    isShow: true
+                }
+            }
+        })
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                message: '123',
+                isShow: true
+            },
+            methods: {
+            },
+            mounted: function () {
+                console.log("当需要让组件组合使用，混合父组件的内容与子组件的模板时，就会用到slot，这个过程叫作内容分发transclusion。");
+                console.log("props传递数据，events触发事件和slot内容分发，构成了Vue组件的3个API来源。");
+                console.log("父组件模板的内容是在父组件作用域内编辑，子组件模板的内容是在子组件作用域内编译");
+                console, log("slot分发的内容，作用域是在父组件上。");
+            }
+        });
+    </script>
+</body>
+
+</html>
