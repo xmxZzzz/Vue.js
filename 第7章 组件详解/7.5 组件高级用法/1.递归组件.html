@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>递归组件</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <child-component :count="1"></child-component>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("child-component", {
+            name: "child-component",
+            template: '\
+            <div class="child">\
+                <child-component :count="count+1" v-if="count<3"></child-component>\
+            </div>',
+            props: {
+                count: {
+                    type: Number,
+                    default: 0
+                }
+            }
+        });
+        var app = new Vue({
+            el: "#app",
+            mounted: function () {
+                console.log("设置name后，在组件模板内就可以递归使用，但必须设置一个条件限制递归数量。")
+            }
+        });
+    </script>
+</body>
+
+</html>

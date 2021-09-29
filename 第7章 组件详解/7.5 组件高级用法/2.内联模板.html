@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内联模板</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- 给组件标签使用inline-template特性，组件就会把它的内容当作模板，而不是当内容分发 -->
+        <my-component inline-template>
+            <div>
+                <h2>在父组件中定义子组件的模板</h2>
+                <p>{{message}}</p>
+                <p>{{msg}}</p>
+            </div>
+        </my-component>
+
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        // 全局定义组件
+        Vue.component('my-component', {
+            data: function () {
+                return {
+                    message: "这是子组件的message"
+                }
+            }
+        });
+
+
+        var app1 = new Vue({
+            el: "#app",
+            data: {
+                msg: "这是父组件的msg"
+            },
+            methods: {
+            },
+            mounted: function () {
+                console.log("缺点：作用域难理解，除非特殊场景，建议不要使用内联模板。");
+            }
+        });
+    </script>
+</body>
+
+</html>

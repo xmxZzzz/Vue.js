@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>内联模板</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <child-component></child-component>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("child-component", function (resolve, reject) {
+            window.setTimeout(() => {
+                resolve({
+                    template: '<div>我是异步渲染的</div>'
+                });
+            }, 2000)
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                currentView: "comA"
+            },
+            methods: {
+                handleChangeView: function (component) {
+                    this.currentView = "com" + component;
+                }
+            },
+            mounted: function () {
+                console.log("工厂函数接收一个resolve回调，在收到服务器下载的组件定义时调用。");
+                console.log("也可以调用reject（reason）指示加载失败");
+            }
+        });
+    </script>
+</body>
+
+</html>
