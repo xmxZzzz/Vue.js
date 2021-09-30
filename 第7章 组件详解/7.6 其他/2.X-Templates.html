@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X-Templates</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <child-component></child-component>
+        <script type="text/x-template" id="child-component">
+            <div>这是使用X-Template的子组件内容</div>
+        </script>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component("child-component", {
+            template: '#child-component'
+        });
+        var app = new Vue({
+            el: "#app",
+            mounted: function () {
+                console.log("Vue提供了另一种定义模板的方式，在<script>标签里使用text/x-template类型，并且指定一个id，将这个id赋值给template");
+            }
+        });
+    </script>
+</body>
+
+</html>

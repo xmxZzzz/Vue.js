@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手动挂载实例</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        //Vue.extend是基础Vue构造器，创建一个字累，参数是一个包含组件选项的对象
+        var MyComponent = Vue.extend({
+            template: '<div>{{message}}</div>',
+            data: function () {
+                return {
+                    message: '手动挂载实例'
+                }
+            }
+        });
+        //手动挂载实例——方法1
+        // new MyComponent().$mount('#app');
+
+        //手动挂载实例——方法2
+        // new MyComponent({
+        //     el: '#app'
+        // });
+
+        //手动挂载实例——方法3
+        var component = new MyComponent().$mount();
+        document.getElementById("app").appendChild(component.$el);
+    </script>
+</body>
+
+</html>
