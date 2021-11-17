@@ -28,14 +28,6 @@
         })
         var app = new Vue({
             el: "#app",
-            data: {
-                currentView: "comA"
-            },
-            methods: {
-                handleChangeView: function (component) {
-                    this.currentView = "com" + component;
-                }
-            },
             mounted: function () {
                 console.log("工厂函数接收一个resolve回调，在收到服务器下载的组件定义时调用。");
                 console.log("也可以调用reject（reason）指示加载失败");
