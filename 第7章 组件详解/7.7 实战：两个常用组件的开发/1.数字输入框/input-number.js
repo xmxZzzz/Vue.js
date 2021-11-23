@@ -1,10 +1,14 @@
+function isValueNumber(value) {
+    return (/(^-?[0-9]+\.{1}\d+$)|(^-?[1-9][0-9]*$)|(^-?0{1}$)/).test(value + " ");
+}
+
 Vue.component("input-number", {
-    template: '\
+    template: `\
     <div>\
-        <input type="text" v-model="currentValue">\
+        <input type="text" :value="currentValue" @change="handleChange" @keyup.up="handleIncrease" @keyup.down="handleReduce">\
         <button @click="handleIncrease" :disabled="currentValue>=max">+</button>\
         <button @click="handleReduce" :disabled="currentValue<=min">-</button>\
-    </div>',
+    </div>`,
     props: {
         max: {
             type: Number,
@@ -17,6 +21,11 @@ Vue.component("input-number", {
         value: {
             type: Number,
             default: 0
+        },
+        // 控制步伐
+        step: {
+            type: Number,
+            default: 1
         }
     },
     data: function () {
@@ -37,6 +46,23 @@ Vue.component("input-number", {
         }
     },
     methods: {
+        handleChange: function (event) {
+            let val = event.target.value.trim();
+            let max = this.max;
+            let min = this.min;
+            if (isValueNumber(val)) {
+                val = Number(val);
+                this.currentValue = val;
+                if (val > max) {
+                    this.currentValue = max;
+                } else if (val < min) {
+                    this.currentValue = min;
+                }
+            } else {
+                event.target.value = this.currentValue;
+
+            }
+        },
         updateValue: function (val) {
             if (val > this.max) val = this.max;
             if (val < this.min) val = this.min;
@@ -44,11 +70,11 @@ Vue.component("input-number", {
         },
         handleIncrease: function () {
             if (this.currentValue >= this.max) return;
-            this.currentValue++;
+            this.currentValue += this.step;
         },
         handleReduce: function () {
             if (this.currentValue <= this.min) return;
-            this.currentValue--;
+            this.currentValue -= this.step;
         },
     },
     mounted: function () {
