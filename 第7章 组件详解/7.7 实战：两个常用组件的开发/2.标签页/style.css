@@ -1,0 +1,56 @@
+[v-cloak]{
+    display: none;
+}
+.tabs{
+    font-size: 14px;
+    color:#657180;
+}
+.tabs-bar:after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #d7dde4;
+    margin-top: -1px;
+}
+.tabs-tab{
+    display: inline-block;
+    padding:4px 16px;
+    margin-right: 6px;
+    background: #fff;
+    border: 1px solid #d7dde4;
+    cursor: pointer;
+    position: relative;
+}
+.tabs-tab-active{
+    color: #3399ff;
+    border-top: 1px solid #3399ff;
+    border-bottom: 1px solid #fff;
+}
+.tabs-tab-active:before{
+    content: "";
+    display: block;
+    height: 1px;
+    background: #3399ff;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+}
+.tabs-content{
+    padding: 8px 0;
+}
+.pane{
+    display: inline-block;
+}
+/*入场(离场)动画的时间段   */
+.fade-enter-active,.fade-leave-active{
+    position: absolute;
+    transition: all .8s ease;  /*ease:快启动，慢停止，物理原则*/
+}
+/*v-enter 是进入之前，元素的起始状态*/
+/*v-leave-to 离开之后动画的终止状态*/
+.fade-enter, .fade-leave-to{
+    transform: translateX(100px); /*X轴平移*/
+    opacity: 0;  /*透明度*/
+}
