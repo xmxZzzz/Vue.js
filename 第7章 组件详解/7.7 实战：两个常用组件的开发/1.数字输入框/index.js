@@ -3,4 +3,9 @@ var app = new Vue({
     data: {
         initValue: 5
     },
+    methods: {
+        changeValue: function (val) {
+            // this.initValue = val;
+        }
+    }
 });

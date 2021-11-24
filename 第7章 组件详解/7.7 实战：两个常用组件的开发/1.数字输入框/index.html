@@ -15,7 +15,7 @@
 
 <body>
     <div id="app" v-cloak>
-        <input-number v-model="initValue" :max="10" :min="0" :step="3"></input-number>
+        <input-number v-model="initValue" :max="10" :min="0" :step="3" @on-change="changeValue"></input-number>
     </div>
     <!-- script文件顺序引入 -->
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
