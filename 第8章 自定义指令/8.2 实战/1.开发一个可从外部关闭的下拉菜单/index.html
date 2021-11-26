@@ -16,6 +16,7 @@
             2、使用HTML5的data自定义特性实现在update钩子函数中支持表达式的更新 :
                 data-first:用于绑定binding.expression
                 data_id：用于判断是否是第一次更新
+            3、支持使用ESC实现关闭下拉菜单
         -->
         <div class="main" v-clickoutside.esc="handleClose" data-first data-id="0" v-test="1*0">
             <button @click="show=!show">点击显示下拉菜单</button>
