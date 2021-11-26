@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发一个可从外部关闭的下拉菜单</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <!-- 
+            1、实现可从外部关闭下拉菜单
+            2、使用HTML5的data自定义特性实现在update钩子函数中支持表达式的更新 :
+                data-first:用于绑定binding.expression
+                data_id：用于判断是否是第一次更新
+        -->
+        <div class="main" v-clickoutside.esc="handleClose" data-first data-id="0" v-test="1*0">
+            <button @click="show=!show">点击显示下拉菜单</button>
+            <div class="dropdown" v-show="show">
+                <p>下拉框的内容，点击外面区域可以关闭</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="clickoutside.js"></script>
+    <script src="test.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
