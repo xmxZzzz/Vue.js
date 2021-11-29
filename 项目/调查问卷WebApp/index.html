@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调查问卷WebApp</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="topic">
+            <div v-show="topic===1">
+                <p>1.请问您的性别是：</p>
+                <input type="radio" v-model="formbean.gender" value="男">男</input>
+                <input type="radio" v-model="formbean.gender" value="女">女</input>
+                <input type="radio" v-model="formbean.gender" value="保留">保留</input>
+            </div>
+            <div v-show="topic===2">
+                <p>2.请选择您的兴趣爱好：</p>
+                <input type="checkbox" v-model="formbean.interest" value="看书">看书</input><br />
+                <input type="checkbox" v-model="formbean.interest" value="游泳">游泳</input><br />
+                <input type="checkbox" v-model="formbean.interest" value="跑步">跑步</input><br />
+                <input type="checkbox" v-model="formbean.interest" value="看电影">看电影</input><br />
+                <input type="checkbox" v-model="formbean.interest" value="听音乐">听音乐</input>
+            </div>
+            <div v-show="topic===3">
+                <p>3.请介绍一下自己：</p>
+                <textarea rows="5" style="width:100%" v-model="formbean.introduce" placeholder="不少于100字"></textarea>
+            </div>
+            <common-btn @on-click="changeTopic" @change-formbean="changeFormbean" @show-res="changeShowRes"
+                :topicInx="topic" v-model="formbean" :next-color="nextColor" :is-disabled="false">
+            </common-btn>
+        </div>
+    </div>
+    </div>
+    <!-- script文件顺序引入 -->
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="commonbtn.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
