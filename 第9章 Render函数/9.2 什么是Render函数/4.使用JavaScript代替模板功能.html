@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用JavaScript代替模板功能</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <h2>替换v-if和v-for</h2>
+        <ele :show="show" :list="list"></ele>
+        <button @click="show=!show">切换</button>
+
+        <h2>使用if、else、map渲染一个列表</h2>
+        <ele1 :list1="list1"></ele1>
+        <button @click="handleClick">显示列表</button>
+
+        <h2>v-model</h2>
+        <ele2></ele2>
+
+        <h2>slot使用</h2>
+        <ele3></ele3>
+        <ele3>
+            <p>slot内容</p>
+        </ele3>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component('ele', {
+            render: function (createElement) {
+                //替换v-for
+                let nodes = [];
+                for (let i = 0; i < this.list.length; i++) {
+                    nodes.push(createElement('p', this.list[i]));
+                }
+                //替换 v-if
+                if (this.show) {
+                    nodes.push(createElement('p', "show的值为true"))
+                } else {
+                    nodes.push(createElement('p', "show的值为false"));
+                }
+                return createElement('div', nodes);
+            },
+            props: {
+                show: {
+                    type: Boolean,
+                    default: false
+                },
+                list: {
+                    type: Array,
+                    default: []
+                }
+            }
+        })
+        Vue.component('ele1', {
+            // 等价于template
+            // template: '\
+            //     <ul v-if="list1.length">\
+            //         <li v-for="item in list1">{{item}}</li>\
+            //     </ul>\
+            //     <p v-else>列表为空</p>',
+
+            render: function (createElement) {
+                if (this.list1.length == 0) {
+                    return createElement('p', "列表为空");
+                } else {
+                    return createElement('ul', this.list1.map(item => {
+                        return createElement('li', item);
+                    }))
+                }
+            },
+            props: {
+                list1: {
+                    type: Array
+                }
+            }
+        });
+        Vue.component('ele2', {
+            // 等价于template
+            // template: '\
+            // <div>\
+            //     <input v-model="value">\
+            //     <p>value: {{value}}</p>\
+            // </div>',
+            render: function (createElement) {
+                //替换v-model，即props:value和event:input组合使用
+                const _this = this;
+                return createElement('div', [
+                    createElement('input', {
+                        //DOM属性
+                        domProps: {
+                            value: this.value
+                        },
+                        on: {
+                            // 输入中文时，拼音也会实时显示在input中
+                            input: function (event) {
+                                _this.value = event.target.value;
+                            }
+                        }
+                    }),
+                    createElement('p', 'value: ' + this.value)
+                ]
+                )
+            },
+            data: function () {
+                return {
+                    value: ''
+                }
+            }
+        });
+        Vue.component('ele3', {
+            render: function (createElement) {
+                if (this.$slots.default === undefined) {
+                    return createElement('div', "没有使用slot时显示的内容");
+                } else {
+                    return createElement('div', this.$slots.default);
+                }
+            }
+        });
+        var app = new Vue({
+            el: "#app",
+            data: {
+                show: false,
+                list: ['Java',
+                    'C++',
+                    "JavaScript"],
+                list1: []
+            },
+            methods: {
+                handleClick: function () {
+                    this.list1 = [
+                        'Java',
+                        'C++',
+                        "JavaScript"
+                    ]
+                },
+            },
+            mounted() {
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重复使用组件</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ele></ele>
+        <ele1>
+            <div>
+                <child1></child1>
+            </div>
+        </ele1>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        //重复使用组件
+        var Child = {
+            render: function (createElement) {
+                return createElement('p', "text");
+            }
+        }
+        Vue.component('ele', {
+            render: function (createElement) {
+                //方式一：
+                // var childNode = createElement(Child);
+                // return createElement('div', [childNode, childNode])
+
+                //方式二
+                return createElement('div', Array.apply(null, { length: 2 })
+                    .map(() => { return createElement(Child) }
+                    ));
+            },
+        })
+        //重复使用含有组件的slot
+        Vue.component('child1', {
+            render: function (createElement) {
+                return createElement('p', 'text1')
+            },
+        })
+        Vue.component('ele1', {
+            render: function (createElement) {
+                //方式一：
+                // return createElement('div', [
+                //     this.$slots.default,
+                //     this.$slots.default,
+                // ])
+
+                //方式二：
+                //克隆slot节点的方法
+                function cloneVNode(vnode) {
+                    const clonedChildren = vnode.children && vnode.children.map(vnode => {
+                        return cloneVNode(vnode);
+                    });
+                    const cloned = createElement(vnode.tag, vnode.data, clonedChildren);
+                    cloned.texx = vnode.text;
+                    cloned.isComment = vnode.isComment;
+                    cloned.componentOptions = vnode.componentOptions;
+                    cloned.elm = vnode.elm;
+                    cloned.context = vnode.context;
+                    cloned.ns = vnode.ns;
+                    cloned.isStatic = vnode.isStatic;
+                    cloned.key = vnode.key;
+                    return cloned;
+                }
+                //获得slot内容
+                const vNodes = this.$slots.default;
+                //利用克隆方法实现对vNodes的深拷贝
+                const cloneVNodes = vNodes.map(vnode => {
+                    return cloneVNode(vnode);
+                });
+                const cloneVNodes1 = vNodes.map(vnode => {
+                    return cloneVNode(vnode);
+                });
+                return createElement('div', [
+                    vNodes, cloneVNodes, cloneVNodes1
+                ])
+            },
+        })
+        var app = new Vue({
+            el: "#app",
+            mounted() {
+                console.log("当前示例下与书中不一致，可以正常渲染出两个Child组件。VNode并没有受到约束。");
+            }
+        });
+    </script>
+</body>
+
+</html>

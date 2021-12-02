@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模拟聊天发送内容的场景</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ele></ele>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component('ele', {
+            render: function (createElement) {
+                let listNodes;
+                const _this = this;
+                if (this.list.length) {
+                    listNodes = createElement('ul', this.list.map(item => {
+                        return createElement('li', item);
+                    }));
+                } else {
+                    listNodes = createElement('p', '暂无聊天记录');
+                }
+
+                return createElement('div', [
+                    listNodes,
+                    createElement('input', {
+                        attrs: {
+                            placeholder: "请输入。。。"
+                        },
+                        style: {
+                            width: '150px'
+                        },
+                        on: {
+                            keyup: function (event) {
+                                //如果不是回车键，则不发送数据
+                                if (event.keyCode != 13) return;
+                                //将发送内容保存到list中
+                                _this.list.push(event.target.value);
+                                //将当前输入框input置空
+                                event.target.value = "";
+                            }
+                        }
+                    })
+                ])
+            },
+            data: function () {
+                return {
+                    value: '',
+                    list: []
+                }
+            }
+        })
+
+        var app = new Vue({
+            el: "#app",
+        })
+    </script>
+</body>
+
+</html>

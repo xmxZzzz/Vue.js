@@ -40,9 +40,9 @@ Vue.component("input-number", {
 
         currentValue: function (val) {
             //在使用v-model时改变value
-            // this.$emit("input", val);
+            this.$emit("input", val);
             //触发自定义事件，用于告知父组件数字输入框的值有所改变
-            // this.$emit("on-change", val);
+            this.$emit("on-change", val);
         }
     },
     methods: {
