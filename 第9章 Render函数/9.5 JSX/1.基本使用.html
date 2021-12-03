@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSX</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <ele :text="text" id="myDiv">content</ele>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        Vue.component('ele', {
+            //JSX写法
+            // render (h){
+            //     return {
+            //         <div 
+            //             id="myDiv"
+            //             domPropsInnerHTML="content"
+            //             onChange={this.changeHandler}
+            //             nativeOnClick={this.clickHandler}
+            //             class={{show:true,on:false}}
+            //             style={{color:"#fff",background:'#f50'}}
+            //             key="key"
+            //             ref="element"
+            //             refInFor
+            //             slot="slot">
+            //         </div>
+            //     }
+            // }
+            //传统写法
+            // render(createElement) {
+            //     return createElement('div', {
+            //         props: {
+            //             text: 'some text',
+            //         },
+            //         attrs: {
+            //             id: 'myDiv'
+            //         },
+            //         domProps: {
+            //             innerHTML: 'content'
+            //         },
+            //         on: {
+            //             change: this.changeHandler
+            //         },
+            //         nativeOn: {
+            //             click: this.clickHandler
+            //         },
+            //         class: {
+            //             show: true,
+            //             on: false
+            //         },
+            //         style: {
+            //             color: '#fff',
+            //             background: '#f50'
+            //         },
+            //         key: 'key',
+            //         ref: 'element',
+            //         refInFor: true,
+            //         slot: 'slot'
+            //     })
+            // },
+            methods: {
+                changeHandler() {
+
+                },
+                clickHandler() {
+
+                }
+            }
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                text: "some message"
+            },
+            methods: {
+            },
+            mounted: function () {
+                console.log("为了让Render函数更好地书写和阅读，Vue.js提供了插件babel-plugin-transform-vue-jsx来支持JSX语法。");
+                console.log('JSX是一种看起来像HTML，但实际是JavaScript的语法扩展，它用更接近DOM结构的形式来描述一个组件的UI和状态信息，最早在React.js里大量应用。');
+            },
+        });
+    </script>
+</body>
+
+</html>
