@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数化组件</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <smart-item :data="data"></smart-item>
+        <button @click="change('img')">切换图片组件</button>
+        <button @click="change('video')">切换视频组件</button>
+        <button @click="change('text')">切换文本组件</button>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+        var ImgItem = {
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('p', "图片组件"),
+                    createElement('img', {
+                        attrs: {
+                            src: this.data.url
+                        }
+                    })
+                ]);
+            },
+            props: {
+                data: {
+                    type: Object
+                }
+            }
+        };
+        var VideoItem = {
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('p', "视频组件"),
+                    createElement('video', {
+                        attrs: {
+                            src: this.data.url,
+                            controld: 'controls',
+                            autoplay: 'autoplay'
+                        }
+                    })
+                ]);
+            },
+            props: {
+                data: {
+                    type: Object
+                }
+            }
+        };
+        var TextItem = {
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('p', "纯文本本组件"),
+                    createElement('p', this.data.content)
+                ])
+            },
+            props: {
+                data: {
+                    type: Object
+                }
+            }
+        };
+        Vue.component('smart-item', {
+            //函数化组件
+            functional: true,
+            //使用函数化组件时，Render函数提供了第二个参数context来提供临时上下文
+            render: function (createElement, context) {
+                function getComponent() {
+                    let data = context.props.data;
+                    if (data.type == "img") return ImgItem;
+                    else if (data.type == 'video') return VideoItem;
+                    else if (data.type == 'text') return TextItem;
+                }
+                return createElement(
+                    getComponent(),
+                    {
+                        props: {
+                            //把smart-item的prop：data传给上面智能选择的组件
+                            data: context.props.data
+                        }
+                    },
+                    context.children
+                )
+            },
+            props: {
+                data: {
+                    type: Object,
+                    required: true
+                }
+            }
+        })
+        var app = new Vue({
+            el: "#app",
+            data: {
+                data: {}
+            },
+            methods: {
+                change: function (type) {
+                    if ("img" === type) {
+                        this.data = {
+                            type: 'img',
+                            url: 'https://raw.githubusercontent.com/iview/iview/master/assets/logo.png'
+                        }
+                    } else if ('video' === type) {
+                        this.data = {
+                            type: 'video',
+                            url: 'http://vjs.zencdn.net/v/oceans.mp4'
+                        }
+                    } else if ('text' === type) {
+                        this.data = {
+                            type: 'text',
+                            content: '这是一段纯文本'
+                        }
+                    }
+                }
+            },
+            mounted: function () {
+                console.log("函数化组件主要适用于以下两种场景：");
+                console.log("程序化地在多个组件中选择一个");
+                console.log("在将children、props、data传递给子组件之前操作它们");
+            },
+            created: function () {
+                this.change('img');
+            }
+        });
+    </script>
+</body>
+
+</html>
