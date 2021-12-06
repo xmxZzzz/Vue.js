@@ -2,10 +2,10 @@ var app = new Vue({
     el: '#app',
     data: {
         columns: [
-            { title: '姓名', key: 'name' },
-            { title: '年龄', key: 'age', sortable: true },
-            { title: '出生日期', key: 'birthday', sortable: true },
-            { title: '地址', key: 'address' },
+            { title: '姓名', key: 'name', colWidth: '20%' },
+            { title: '年龄', key: 'age', sortable: true, colWidth: '10%' },
+            { title: '出生日期', key: 'birthday', sortable: true, colWidth: '20%' },
+            { title: '地址', key: 'address', colWidth: '50%' },
         ],
         data: [
             { name: '王小明', age: 18, birthday: "1999-02-21", address: "北京市朝阳区芍药居" },

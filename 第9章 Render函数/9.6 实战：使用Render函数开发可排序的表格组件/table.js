@@ -1,56 +1,86 @@
 Vue.component('v-table', {
-    render(h) {
-        const _this = this;
-        var ths = [];
-        //获得表头节点
-        this.currentColumns.forEach((col, index) => {
-            if (col.sortable) {
-                ths.push(h('th', [
-                    h('span', col.title),
-                    //升序
-                    h('a', {
-                        class: {
-                            //当为true时，表示选中
-                            on: col._sortType === 'asc'
-                        },
-                        on: {
-                            click: () => {
-                                _this.handleSortByAsc(index);
-                            }
-                        }
-                    }, "↑"),
-                    //降序
-                    h('a', {
-                        class: {
-                            on: col._sortType === 'desc'
-                        },
-                        on: {
-                            click: () => {
-                                _this.handleSortByDesc(index);
-                            }
-                        }
-                    }, "↓"),
-                ]));
-            } else {
-                ths.push(h('th', col.title));
-            }
-        })
-        var trs = [];
-        //获得表格的主体
-        this.currentData.forEach(element => {
-            var tds = [];
-            _this.currentColumns.forEach(cell => {
-                tds.push(h('td', element[cell.key]))
-            });
-            trs.push(h('tr', tds));
-        });
-        return h('table', [
-            h('thead', [
-                h('tr', ths)
-            ]),
-            h('tbody', trs)
-        ])
-    },
+    // render(h) {
+    //     const _this = this;
+    //     var ths = [];
+    //     //获得表头节点
+    //     this.currentColumns.forEach((col, index) => {
+    //         if (col.sortable) {
+    //             ths.push(h('th', [
+    //                 h('span', col.title),
+    //                 //升序
+    //                 h('a', {
+    //                     class: {
+    //                         //当为true时，表示选中
+    //                         on: col._sortType === 'asc'
+    //                     },
+    //                     on: {
+    //                         click: () => {
+    //                             _this.handleSortByAsc(index);
+    //                         }
+    //                     }
+    //                 }, "↑"),
+    //                 //降序
+    //                 h('a', {
+    //                     class: {
+    //                         on: col._sortType === 'desc'
+    //                     },
+    //                     on: {
+    //                         click: () => {
+    //                             _this.handleSortByDesc(index);
+    //                         }
+    //                     }
+    //                 }, "↓"),
+    //             ]));
+    //         } else {
+    //             ths.push(h('th', col.title));
+    //         }
+    //     })
+    //     var trs = [];
+    //     //获得表格的主体
+    //     this.currentData.forEach(element => {
+    //         var tds = [];
+    //         _this.currentColumns.forEach(cell => {
+    //             tds.push(h('td', element[cell.key]))
+    //         });
+    //         trs.push(h('tr', tds));
+    //     });
+    //     var tcs = [];
+    //     //获得表格宽度
+    //     this.currentColumns.forEach((col, index) => {
+    //         tcs.push(h('col', {
+    //             attrs: {
+    //                 width: col.colWidth
+    //             }
+    //         }));
+    //     })
+    //     return h('table', [
+    //         h('colgroup', tcs),
+    //         h('thead', [
+    //             h('tr', ths)
+    //         ]),
+    //         h('tbody', trs)
+    //     ])
+    // },
+    template: '\
+    <table>\
+        <colgroup>\
+            <col v-for="item in currentColumns" :width="item.colWidth">\
+        </colgroup>\
+        <thead>\
+            <tr>\
+                <th v-for="(item,index) in currentColumns"> \
+                    {{item.title}} \
+                    <a v-if="item.sortable" :class="{on:item._sortType===\'asc\'}" @click="handleSortByAsc(index)">↑</a> \
+                    <a v-if="item.sortable" :class="{on:item._sortType===\'desc\'}" @click="handleSortByDesc(index)">↓</a> \
+                </th>\
+            </tr>\
+        </thead>\
+        <tbody>\
+            <tr v-for="item in currentData">\
+                <td v-for="(arg,key) in item">{{arg}}</td>\
+            <//tr>\
+        </tbody>\
+    </table > ',
     props: {
         columns: {
             type: Array,
@@ -101,7 +131,7 @@ Vue.component('v-table', {
         },
         handleSortByAsc(index) {
             let key = this.currentColumns[index].key;
-            this.currentColumns.forEach(col => {
+            this.currentColumns.map(col => {
                 col._sortType = 'normal'
             })
             this.currentColumns[index]._sortType = 'asc';
