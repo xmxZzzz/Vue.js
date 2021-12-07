@@ -18,6 +18,23 @@ var config = {
     module: {
         rules: [
             {
+                test: /\.vue/,
+                loader: 'vue-loader',
+                options: {
+                    loaders: {
+                        css: ExtractTextPlugin.extract({
+                            use: 'css-loader',
+                            fallback: 'vue-style-loader'
+                        })
+                    }
+                }
+            },
+            {
+                test: '/\.js/',
+                loader: 'babel-loader',
+                exclude: /node-modules/
+            },
+            {
                 test: /\.css/,
                 // use: [
                 //     'style-loader',
@@ -28,12 +45,16 @@ var config = {
                     use: 'css-loader',
                     fallback: 'style-loader'
                 })
+            },
+            {
+                test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+                loader: 'url-loader?limit=1024' //如果文件小于1kb,则不会生成一个文件
             }
         ]
     },
     plugins: [
         //重命名提取后的css文件
-        new ExtractTextPlugin('main.css')
+        new ExtractTextPlugin('main.css'),
     ]
 };
 
