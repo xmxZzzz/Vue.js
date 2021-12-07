@@ -90,5 +90,63 @@ var config = {
 // 但因为还未安装支持ES6的编译插件，所以不能直接使用ES6的语法
 module.exports = config;
 ```
+- 执行 `npm run dev`
 
+- 当在*main.js*文件中添加语句`document.getElementById("app").innerHTML = "Hello webpack.";`后，浏览器自动刷新，即通过建立一个**WebSocket**连接来实时响应代码的修改。
+
+**插件Plugins**
+
+- 当项目很大样式就会很多，都放在JS里太占体积，还不能做缓存，因此需要用到**插件Plugins**。
+
+- 使用**extract-text-webpack-plugin**插件将散落在各地的css提取出来，并生成main.css文件，最终在index.html中通过`<link>`的形式加载它。
+
+  - `npm install extract-text-webpack-plugin@2.1.2 --save-dev`
+
+  - 在webpack.config.js配置文件中导入插件，并改写loader的配置
+
+    ```js
+    //导入插件
+    var ExtractTextPlugin = require('extract-text-webpack-plugin');
     
+    var config = {
+     	//...
+        module: {
+            rules: [
+                {
+                    test: /\.css/,
+                    // use: [
+                    //     'style-loader',
+                    //     'css-loader'
+                    // ]
+                    //利用插件改写use
+                    use: ExtractTextPlugin.extract({
+                        use: 'css-loader',
+                        fallback: 'style-loader'
+                    })
+                }
+            ]
+        },
+        plugins: [
+            //重命名提取后的css文件
+            new ExtractTextPlugin('main.css')
+        ]
+    };
+    
+    module.exports = config;
+    ```
+
+  - 在index.html中通过`<link>`标签引入
+
+    ```html
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>webpack app</title>
+        <link rel="stylesheet" type="text/css" href="/dist/main.css">
+    </head>
+    ```
+
+  - 结果：`<link>`引入的main.css文件替换`<style>`
+
+  
