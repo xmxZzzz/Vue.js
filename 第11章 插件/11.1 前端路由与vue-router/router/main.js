@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
     }
 });
 
-router.afterEach((to, from, next) => {
+router.afterEach((to, from) => {
     //解决前一个页面的滚动条在中间位置，导致跳转页面后，滚动条位置不变的问题
     window.scrollTo(0, 0);
 })
