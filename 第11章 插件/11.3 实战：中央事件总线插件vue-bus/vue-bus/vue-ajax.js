@@ -1,6 +1,7 @@
 const ajax = function (options = {}) {
     options.type = (options.type || 'GET').toUpperCase();
 
+    //将参数进行拼接：例如username=tom&gender=female
     let data = [];
     for (let i in options.data) {
         data.push(encodeURIComponent(i) + '=' + encodeURIComponent(options.data[i]));
