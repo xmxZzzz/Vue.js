@@ -44,6 +44,18 @@ export default {
     beforeDestory(){
         this.$bus.off('add',this.handleAddRandom);
     },
+    mounted(){
+        // let url="localhost:8080/user"
+        // this.$ajax({  
+        //     url: url + '?name=哈哈&age=12',  
+        //     success: function (result, status, xhr) {    
+        //         console.log('request success...');  
+        //     },  
+        //     error: (xhr, status, error) => {    
+        //         console.log('request error...');  
+        //     }
+        // });
+    },
     computed: {
         count: function () {
             return this.$store.state.count;
