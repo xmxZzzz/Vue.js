@@ -11,26 +11,41 @@
           </ul>
       </div>
       <!-- 中间相应列表 -->
-      <div class="daily-list">
-          <Item></Item>
+      <div class="daily-list" ref="list" @scroll="handleScroll">
+          <template v-if="type==='recommend'">
+              <div v-for="(list,index) in recommendList" :key="index">
+                  <div class="daily-date">{{formatDay(list.date)}}</div>
+                  <Item v-for="item in list.stories" :data="item" :key="item.id" @click.native="handleClick(item.id)"></Item>
+              </div>
+          </template>
+          <template v-if="type==='daily'">
+              <Item v-for="item in list" :key="item.id" :data="item" @click.native="handleClick(item.id)"></Item>
+          </template>
       </div>
       <!-- 右边文件详情 -->
-      <daily-article></daily-article>
+      <daily-article :id="articleId"></daily-article>
     </div>
 </template>
 <script>
 import $ from './libs/util';
+import Item from './components/item.vue';
+import dailyArticle from './components/daily-article.vue';
 export default {
+    components:{
+        Item,
+        dailyArticle
+    },
     data:function(){
         return {
-            type:'recommend', //每日推荐 或者 主题推荐
+            type:'recommend', //每日推荐 或者 主题日报
             showThemes:false,
             themes:[], //主题日报的分类列表
             themeId:0, //点击的主题日报的子类的id
-            list:[], //中间栏主题推荐文章列表
+            list:[], //中间栏主题日报文章列表
             recommendList:[],//每日推荐文章列表
             dailyTime:$.getTodayTime(),
             isLoading:false,
+            articleId:0
         }
     },
     methods:{
@@ -76,6 +91,7 @@ export default {
             })
         },
 
+        //点击每日推荐菜单触发的事件
         handleToRecommend(){
             this.type='recommend';
             this.recommendList=[];
@@ -89,12 +105,37 @@ export default {
                 this.recommendList.push(res);
                 this.isLoading=false;
             })
+        },
+        //日期格式化:12月14日
+        formatDay(date){
+            let month = date.substr(4,2);
+            let day = date.substr(6,2);
+            if(month.substr(0,1)==='0') month=month.substr(1,1);
+            if(day.substr(0,1)==='0') day = day.substr(1,1);
+            return `${month} 月 ${day} 日`
+        },
 
+        //监听中间栏的滚动事件
+        handleScroll(){
+            const $list = this.$refs.list;
+            //在主题日报或正在加载推荐列表时停止操作
+            if(this.type=='recomment' || this.isLoading) return ;
+            //当滚动到底部时
+            if($list.scrollTop+document.body.clientHeight>=$list.scrollHeight){
+                //时间减少一天
+                this.dailyTime-=86400000;
+                this.getRecommendList();
+            }
+        },
+        //获取点击文章列表的id，更新article，以获取文章详细内容
+        handleClick(id){
+            this.articleId=id;
         }
     },
     mounted(){
         this.getThemes();
         this.getRecommendList();
+       
     }
 }
 </script>
